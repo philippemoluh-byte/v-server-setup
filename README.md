@@ -159,19 +159,3 @@ ssh-copy-id -i ~/.ssh/your_key.pub user@host
         git clone https://github.com/philippemoluh-byte/v-server-setup.git
         
         ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
