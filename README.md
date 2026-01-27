@@ -118,14 +118,15 @@ ssh-copy-id -i ~/.ssh/your_key.pub user@host
         ```
         ``` Json
         {
-        listen port;
-        listen [::]:port;
+            listen port;
+            listen [::]:port;
 
-        root /var/www/mywebsite;
-        index page-index.html;
+            root /var/www/mywebsite;
+            index page-index.html;
 
-        location / {
-            try_files $uri $uri/ =404;} <br/> 
+            location / {
+                try_files $uri $uri/ =404;
+                }
         }
 
         ```
