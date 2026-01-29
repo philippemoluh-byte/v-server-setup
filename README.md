@@ -1,15 +1,12 @@
 # v-server-setup
 
-This v-server is based on linux and can be used for development, testing, and hosting applications.
-
 ## Description 
+This server is based on linux and can be used for development, testing, and hosting applications. This document provides detailed instructions for installing and configuring a nginx web server for the static Site hosting and cloning a repository on the V-server.
 
-This document provides detailed instructions for installing and configuring a nginx web server for the static Site hosting and cloning a repository on the V-server.
-
-## Table of contents
-- Prerequisites
-- Quickstart
-- Usage
+**Key Feature**
+- Log in to the v-server using the ssh key
+- Host a Html page on the server
+- clone and configure a git repository on the server
 
 ### Prequisites
 - Linux (Ubuntu 24.04.3 LTS)
@@ -17,20 +14,21 @@ This document provides detailed instructions for installing and configuring a ng
 - Editor like vim or nano
 
 ### Quickstart 
+To start the configuration of the webserver you have to:
 
-1. Generate a ssh key pair on the local machine
+0. Generate a ssh key pair on the local machine
 
 ```
 ssh-keygen -t ed25519 -C "ihre_email@beispiel.de"
 
 ```
-2. Connect to the server
+1. Connect to the server
 
 ```
 ssh user@host
 
 ```
-3. Copy the ssh public key to the server
+2. Copy the ssh public key to the server
 
 ```
 ssh-copy-id -i ~/.ssh/your_key.pub user@host
