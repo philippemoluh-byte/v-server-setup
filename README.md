@@ -1,159 +1,232 @@
 # v-server-setup
 
-## Description 
-This server is based on linux and can be used for development, testing, and hosting applications. This document provides detailed instructions for installing and configuring a nginx web server for the static Site hosting and cloning a repository on the V-server.
+This guide describes how to set up a Linux-based virtual server for secure access and basic web hosting. It covers SSH key-based authentication, disabling password authentication, installing and configuring the NGINX web server for static HTML hosting, and cloning and configuring a Git repository directly on the server.
 
-**Key Feature**
-- Log in to the v-server using the ssh key
-- Host a Html page on the server
-- clone and configure a git repository on the server
+Key features
 
-### Prequisites
+- Log in to the v-server using an SSH key
+- Host an HTML page on the server
+- Clone and configure a Git repository on the server
+
+## Prerequisites
+
 - Linux (Ubuntu 24.04.3 LTS)
-- Git (Knowledge on Git Operation)
-- Editor like vim or nano
+- Git (knowledge of Git operations)
+- An editor such as vim or nano
 
-### Quickstart 
-To start the configuration of the webserver you have to:
+## Set up access to the server using an SSH key
 
-0. Generate a ssh key pair on the local machine
+To start configuring the web server, perform the following steps:
+
+1. Generate an SSH key pair on the local machine
+
+```bash
+ssh-keygen -t ed25519 -C "<your_email_adress>"
 
 ```
-ssh-keygen -t ed25519 -C "ihre_email@beispiel.de"
 
-```
 1. Connect to the server
 
-```
+```bash
 ssh user@host
 
 ```
-2. Copy the ssh public key to the server
 
-```
+1. Copy the ssh public key to the server
+
+```bash
 ssh-copy-id -i ~/.ssh/your_key.pub user@host
 
 ```
 
-### Usage 
+[!IMPORTANT]
 
-- For the connection to the server using the ssh key or passwort ensure that you are disconnected from the server at first. 
-- Ensure that the connection using ssh key is successful before to disable the passwort
+- Before disabling password authentication, make sure your SSH key-based login works and that you are not locked out.
 
+[!WARNING]
 
-1. #### Connect to the v-server using the ssh key
+- Ensure the SSH key-based connection is successful before disabling password.
 
-    ```
-    ssh -i ~/.ssh/your_key  user@host
+1. Connect to the v-server using the SSH key
 
-    ```
+```bash
 
-2. #### Setup the server configuration file to disable the login using the password
+ssh -i ~/.ssh/your_key  "<your_root_name>"@"<your_ip>"
 
-    - Update the ssh configuration file by changing the  "PasswordAuthentication"  to "no"
+```
 
-        ```
-            sudo nano /etc/ssh/sshd_config
-            PasswordAuthentication no
+## Disable password login
 
-        ```
-    - Save the ssh configuration file file and restart the SSH service to apply the change
+1. Update the SSH configuration file
 
-        ```
-        sudo systemctl restart sshd
+```bash
 
-        ```
-    - Check if the password is succesfull disabled in the server
-    by connecting with ssh key
-        ```
-        ssh -i <path/to/ssh-key -o PubkeyAuthentication=no user@host 
+    sudo nano /etc/ssh/sshd_config
+    #set:
+    PasswordAuthentication no
+```
 
-        ```
-3. #### Install the nginx webserver for in the V-server
+1. Save and close the SSH configuration file.
 
-    - Update your local package to get the latest version
+2. Restart the SSH service to apply the change
 
-        ```
-        sudo apt update
+```bash
+sudo systemctl restart sshd
 
-        ```
-    - Install the Nginx webserver
-        ```
-        sudo apt install nginx -y
+```
 
-        ```
-    - Test the Nginx configuration
-        ```
-        sudo nginx -t
+1. Verify that password authentication has been disabled successfully.
 
-        ```
-    - Call the host on the browser and check if you see the Welcome page of Nginx webserver
+```bash
+ssh -i <path/to/ssh-key -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip>"
 
-4. #### Configure the NGINX server to display alternative HTML page.
+```
 
-    - Ensure that the directive exists
-        ```
-        ls /var/www
+## Install NGINX web server
 
-        ```
-    - Create the directory "mywebsite"
-        ```
-        mkdir /var/www/mywebsite
+1. Update package lists.
 
-        ```
-    - Create a html file in "mywebsite" directory by running
-        ```
-        sudo touch /var/www/mywebsite/page-index.html
+``` bash
+sudo apt update
 
-        ```
-    - Edit the html file by adding a Html contain. after save the file
-    
-    - Add a configuration file to enable the display of the alternative html page
+```
 
-        ```
-        ssudo nano /etc/nginx/sites-enabled/mywebsite
+1. Install the NGINX package.
 
-        ```
-        ``` Json
-        {
-            listen port;
-            listen [::]:port;
+```bash
+sudo apt install nginx -y
 
-            root /var/www/mywebsite;
-            index page-index.html;
+```
 
-            location / {
-                try_files $uri $uri/ =404;
-                }
+1. Test the NGINX configuration.
+
+```bash
+sudo nginx -t
+
+```
+
+1. Open the server address in a web browser.
+2. Confirm the NGINX default welcome page is displayed.
+
+## Configure the NGINX web server
+
+1. Ensure that the directory exists.
+
+```bash
+ls /var/www
+
+```
+
+1. Create the directory "mywebsite"
+
+```bash
+sudo mkdir -p /var/www/mywebsite
+```
+
+1. Create an HTML file in the "mywebsite" directory by running.
+
+```bash
+sudo touch /var/www/mywebsite/page-index.html
+
+```
+
+1. Edit the HTML file and add simple HTML content.
+
+```html
+<!DOCTYPE html>
+<html>
+    <body>
+
+        <h1>My First Heading</h1>
+        <p>My first paragraph.</p>
+
+    </body>
+</html>
+```
+
+1. After saving and closing the file, add a site configuration to serve the HTML page.
+
+```bash
+sudo nano /etc/nginx/sites-enabled/mywebsite
+
+```
+
+Example site block(use a server block):
+
+```nginx
+{
+    listen <your_nginx_port>; # Example 8070
+    listen [::]:<your_nginx_port>;
+
+    root /var/www/mywebsite;
+    index page-index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
         }
+}
 
-        ```
-    - Save and leave the file
-    - Retart the nginx server
-        ```
-        sudo service nginx restart
+```
 
-        ```
-    - Call the the following link on your browser to see the new page
-        ```
-        host:port
+1. Save and close the file
+2. Enable the site and restart NGINX:
 
-        ```
+```bash
+sudo service nginx restart
 
-5. #### Configure the git in the v-server 
+```
 
-    - To generate the ssh-key in the v-server see the Quickstart
+1. Open the following address in your browser to see the new page:
 
-    - Copy the contain of the public key of the v-server and save it in the Github repository
+```text
+http://<your_ip>:<your_nginx_port>
 
-    - Configure the git on the server to use the same username and email as on GitHub.
-        ```
-        git config --global user.name "user name"
-        git config --global user.email "ihre_email@beispiel.de"
+```
 
-        ```
-    - Clone the git repository
-        ```
-        git clone https://github.com/philippemoluh-byte/v-server-setup.git
-        
-        ```
+## Configure and clone the Git repository
+
+[!IMPORTANT]
+Ensure that you are connected to the server.
+
+1. Generate an SSH key on the server.
+
+```bash
+ssh-keygen -t ed25519 -C "<your_email_adress>"
+
+```
+
+1. Copy the contents of the public key and add it to your GitHub account.
+
+2. Configure Git on the server to use the same username and email as your GitHub account.
+
+```bash
+git config --global user.name "<your_github_account_username>"
+git config --global user.email "<your_github_account_email>"
+
+```
+
+1. Clone the git repository
+
+```bash
+git clone https://github.com/<your_github_account_name>/<your_github_repository_name>.git
+
+```
+
+### Ensure your SSH connection to GitHub works
+
+1. Run the following command on your server.
+
+```bash
+git -T git@github.com
+
+```
+
+1. You should see a message asking to verify the host fingerprint. Verify it matches GitHub's public key and type yes to continue.
+
+[!NOTE]
+You may see this message on successful authentication:
+
+```text
+Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
+
+```
