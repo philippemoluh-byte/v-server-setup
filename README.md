@@ -28,7 +28,7 @@ ssh-keygen -t ed25519 -C "<your_email_adress>"
 1. Connect to the server
 
 ```bash
-ssh user@host
+ssh "<your_root_name>"@"<your_ip>"
 
 ```
 
@@ -78,7 +78,7 @@ sudo systemctl restart sshd
 1. Verify that password authentication has been disabled successfully.
 
 ```bash
-ssh -i <path/to/ssh-key -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip>"
+ssh -i <path/to/ssh-key> -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip>"
 
 ```
 
@@ -208,7 +208,7 @@ git config --global user.email "<your_github_account_email>"
 1. Clone the git repository
 
 ```bash
-git clone https://github.com/<your_github_account_name>/<your_github_repository_name>.git
+git clone https://github.com/<your_github_account_name>/<your_github_repository_name>.
 
 ```
 
