@@ -1,8 +1,18 @@
-# v-server-setup
+# V-server-setup
 
 This guide describes how to set up a Linux-based virtual server for secure access and basic web hosting. It covers SSH key-based authentication, disabling password authentication, installing and configuring the NGINX web server for static HTML hosting, and cloning and configuring a Git repository directly on the server.
 
-Key features
+## Table of contents
+
+- [Key features](#key-features)
+- [Prerequisites](#prerequisites)
+- [Set up access to the server using an SSH key](#set-up-access-to-the-server-using-an-ssh-key)
+- [Disable password login](#disable-password-login)
+- [Install NGINX web server](#install-nginx-web-server)
+- [Configure the NGINX web server](#configure-the-nginx-web-server)
+- [Configure and clone the Git repository](#configure-and-clone-the-git-repository)
+
+## Key features
 
 - Log in to the v-server using an SSH key
 - Host an HTML page on the server
@@ -22,37 +32,27 @@ To start configuring the web server, perform the following steps:
 
 ```bash
 ssh-keygen -t ed25519 -C "<your_email_adress>"
-
 ```
 
 ### Connect to the server
 
 ```bash
 ssh "<your_root_name>"@"<your_ip>"
-
 ```
 
 ### Copy the ssh public key to the server
 
 ```bash
 ssh-copy-id -i ~/.ssh/your_key.pub user@host
-
 ```
 
-[!IMPORTANT]
-
-- Before disabling password authentication, make sure your SSH key-based login works and that you are not locked out.
-
-[!WARNING]
-
-- Ensure the SSH key-based connection is successful before disabling password.
+> [!WARNING]
+> Ensure the SSH key-based connection is successful before disabling password.
 
 ### Connect to the v-server using the SSH key
 
 ```bash
-
 ssh -i ~/.ssh/your_key "<your_root_name>"@"<your_ip>"
-
 ```
 
 ## Disable password login
@@ -60,7 +60,6 @@ ssh -i ~/.ssh/your_key "<your_root_name>"@"<your_ip>"
 ### Update the SSH configuration file
 
 ```bash
-
     sudo nano /etc/ssh/sshd_config
     #set:
     PasswordAuthentication no
@@ -72,7 +71,6 @@ ssh -i ~/.ssh/your_key "<your_root_name>"@"<your_ip>"
 
 ```bash
 sudo systemctl restart sshd
-
 ```
 
 ### Verify that password authentication has been disabled successfully
@@ -88,7 +86,6 @@ ssh -i <path/to/ssh-key> -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip
 
 ``` bash
 sudo apt update
-
 ```
 
 ### Install the NGINX package
@@ -102,7 +99,6 @@ sudo apt install nginx -y
 
 ```bash
 sudo nginx -t
-
 ```
 
 1. Open the server address in a web browser.
@@ -114,7 +110,6 @@ sudo nginx -t
 
 ```bash
 ls /var/www
-
 ```
 
 ### Create the directory "mywebsite"
@@ -127,7 +122,6 @@ sudo mkdir -p /var/www/mywebsite
 
 ```bash
 sudo touch /var/www/mywebsite/page-index.html
-
 ```
 
 ### Edit the HTML file and add simple HTML content
@@ -150,7 +144,6 @@ sudo touch /var/www/mywebsite/page-index.html
 
 ```bash
 sudo nano /etc/nginx/sites-enabled/mywebsite
-
 ```
 
 Example site block(use a server block):
@@ -167,7 +160,6 @@ Example site block(use a server block):
         try_files $uri $uri/ =404;
         }
 }
-
 ```
 
 1. Save and close the file
@@ -176,14 +168,12 @@ Example site block(use a server block):
 
 ```bash
 sudo service nginx restart
-
 ```
 
 ### Open the following address in your browser to see the new page
 
 ```text
 http://<your_ip>:<your_nginx_port>
-
 ```
 
 ## Configure and clone the Git repository
@@ -196,7 +186,6 @@ http://<your_ip>:<your_nginx_port>
 
 ```bash
 ssh-keygen -t ed25519 -C "<your_email_adress>"
-
 ```
 
 ### Add the key to GitHub
@@ -208,23 +197,20 @@ ssh-keygen -t ed25519 -C "<your_email_adress>"
 
 ### Configure Git on the server to use
 
-[!IMPORTANT]
-
-- Give the same username and email as your GitHub account
+> [!IMPORTANT]
+> Give the same username and email as your GitHub account
 
 ```bash
 #set username
 git config --global user.name "<your_github_account_username>"
 #set email
 git config --global user.email "<your_github_account_email>"
-
 ```
 
 ### Clone the git repository
 
 ```bash
 git clone https://github.com/<your_github_account_name>/<your_github_repository_name>.
-
 ```
 
 ### Ensure your SSH connection to GitHub works
@@ -233,19 +219,14 @@ git clone https://github.com/<your_github_account_name>/<your_github_repository_
 
 ```bash
 git -T git@github.com
-
 ```
 
-[!IMPORTANT]
+> [!IMPORTANT]
+> You should see a message asking to verify the host fingerprint.
+> Verify if the fingerprint matches GitHub's public key and type yes to continue.
 
-- You should see a message asking to verify the host fingerprint.
-- Verify if the fingerprint matches GitHub's public key and type yes to continue.
-
-[!NOTE]
-
-- You may see this message on successful authentication:
+1. You may see this message on successful authentication:
 
 ```text
 Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
-
 ```
