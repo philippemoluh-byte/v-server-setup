@@ -31,13 +31,13 @@ To start configuring the web server, perform the following steps:
 ### Generate an SSH key pair on the local machine
 
 ```bash
-ssh-keygen -t ed25519 -C "<your_email_adress>"
+ssh-keygen -t ed25519 -C <your_email_adress>
 ```
 
 ### Connect to the server
 
 ```bash
-ssh "<your_root_name>"@"<your_ip>"
+ssh <your_root_name>@<your_ip>
 ```
 
 ### Copy the ssh public key to the server
@@ -46,13 +46,14 @@ ssh "<your_root_name>"@"<your_ip>"
 ssh-copy-id -i ~/.ssh/your_key.pub user@host
 ```
 
-> [!WARNING]
+> ⚠️ Warning
+>
 > Ensure the SSH key-based connection is successful before disabling password.
 
 ### Connect to the v-server using the SSH key
 
 ```bash
-ssh -i ~/.ssh/your_key "<your_root_name>"@"<your_ip>"
+ssh -i ~/.ssh/your_key <your_root_name>@<your_ip>
 ```
 
 ## Disable password login
@@ -76,7 +77,7 @@ sudo systemctl restart sshd
 ### Verify that password authentication has been disabled successfully
 
 ```bash
-ssh -i <path/to/ssh-key> -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip>"
+ssh -i <path/to/ssh-key> -o PubkeyAuthentication=no <your_root_name>@<your_ip>
 
 ```
 
@@ -159,6 +160,7 @@ Example site block(use a server block):
     location / {
         try_files $uri $uri/ =404;
         }
+git push
 }
 ```
 
@@ -178,14 +180,14 @@ http://<your_ip>:<your_nginx_port>
 
 ## Configure and clone the Git repository
 
-[!IMPORTANT]
-
-- Ensure that you are connected to the server.
+> 🔔 IMPORTANT
+>
+> Ensure that you are connected to the server.
 
 ### Generate an SSH key on the server
 
 ```bash
-ssh-keygen -t ed25519 -C "<your_email_adress>"
+ssh-keygen -t ed25519 -C <your_email_adress>
 ```
 
 ### Add the key to GitHub
@@ -197,14 +199,15 @@ ssh-keygen -t ed25519 -C "<your_email_adress>"
 
 ### Configure Git on the server to use
 
-> [!IMPORTANT]
+> 🔔 IMPORTANT
+>
 > Give the same username and email as your GitHub account
 
 ```bash
 #set username
-git config --global user.name "<your_github_account_username>"
+git config --global user.name <your_github_account_username>
 #set email
-git config --global user.email "<your_github_account_email>"
+git config --global user.email <your_github_account_email>
 ```
 
 ### Clone the git repository
@@ -221,11 +224,12 @@ git clone https://github.com/<your_github_account_name>/<your_github_repository_
 git -T git@github.com
 ```
 
-> [!IMPORTANT]
+> 🔔 IMPORTANT
+>
 > You should see a message asking to verify the host fingerprint.
 > Verify if the fingerprint matches GitHub's public key and type yes to continue.
 
-1. You may see this message on successful authentication:
+1. Ensure that you see a similar message on successful authentication:
 
 ```text
 Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
