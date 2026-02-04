@@ -20,9 +20,10 @@ This guide describes how to set up a Linux-based virtual server for secure acces
 
 ## Prerequisites
 
-- Linux (Ubuntu 24.04.3 LTS)
+- Virtual machine
 - Git (knowledge of Git operations)
 - An editor such as vim or nano
+- Linux (Basic knowledge)
 
 ## Set up access to the server using an SSH key
 
@@ -233,4 +234,4 @@ git -T git@github.com
 
 ```text
 Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
-``
+```
