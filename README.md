@@ -18,21 +18,21 @@ Key features
 
 To start configuring the web server, perform the following steps:
 
-1. Generate an SSH key pair on the local machine
+### Generate an SSH key pair on the local machine
 
 ```bash
 ssh-keygen -t ed25519 -C "<your_email_adress>"
 
 ```
 
-1. Connect to the server
+### Connect to the server
 
 ```bash
 ssh "<your_root_name>"@"<your_ip>"
 
 ```
 
-1. Copy the ssh public key to the server
+### Copy the ssh public key to the server
 
 ```bash
 ssh-copy-id -i ~/.ssh/your_key.pub user@host
@@ -47,17 +47,17 @@ ssh-copy-id -i ~/.ssh/your_key.pub user@host
 
 - Ensure the SSH key-based connection is successful before disabling password.
 
-1. Connect to the v-server using the SSH key
+### Connect to the v-server using the SSH key
 
 ```bash
 
-ssh -i ~/.ssh/your_key  "<your_root_name>"@"<your_ip>"
+ssh -i ~/.ssh/your_key "<your_root_name>"@"<your_ip>"
 
 ```
 
 ## Disable password login
 
-1. Update the SSH configuration file
+### Update the SSH configuration file
 
 ```bash
 
@@ -66,16 +66,16 @@ ssh -i ~/.ssh/your_key  "<your_root_name>"@"<your_ip>"
     PasswordAuthentication no
 ```
 
-1. Save and close the SSH configuration file.
+### Save and close the SSH configuration file
 
-2. Restart the SSH service to apply the change
+### Restart the SSH service to apply the change
 
 ```bash
 sudo systemctl restart sshd
 
 ```
 
-1. Verify that password authentication has been disabled successfully.
+### Verify that password authentication has been disabled successfully
 
 ```bash
 ssh -i <path/to/ssh-key> -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip>"
@@ -84,21 +84,21 @@ ssh -i <path/to/ssh-key> -o PubkeyAuthentication=no "<your_root_name>"@"<your_ip
 
 ## Install NGINX web server
 
-1. Update package lists.
+### Update package lists
 
 ``` bash
 sudo apt update
 
 ```
 
-1. Install the NGINX package.
+### Install the NGINX package
 
 ```bash
 sudo apt install nginx -y
 
 ```
 
-1. Test the NGINX configuration.
+### Test the NGINX configuration
 
 ```bash
 sudo nginx -t
@@ -110,27 +110,27 @@ sudo nginx -t
 
 ## Configure the NGINX web server
 
-1. Ensure that the directory exists.
+### Ensure that the directory exists
 
 ```bash
 ls /var/www
 
 ```
 
-1. Create the directory "mywebsite"
+### Create the directory "mywebsite"
 
 ```bash
 sudo mkdir -p /var/www/mywebsite
 ```
 
-1. Create an HTML file in the "mywebsite" directory by running.
+### Create an HTML file in the "mywebsite" directory by running
 
 ```bash
 sudo touch /var/www/mywebsite/page-index.html
 
 ```
 
-1. Edit the HTML file and add simple HTML content.
+### Edit the HTML file and add simple HTML content
 
 ```html
 <!DOCTYPE html>
@@ -144,7 +144,9 @@ sudo touch /var/www/mywebsite/page-index.html
 </html>
 ```
 
-1. After saving and closing the file, add a site configuration to serve the HTML page.
+1. Save and close the file.
+
+### Add a site configuration to serve the HTML page
 
 ```bash
 sudo nano /etc/nginx/sites-enabled/mywebsite
@@ -169,14 +171,15 @@ Example site block(use a server block):
 ```
 
 1. Save and close the file
-2. Enable the site and restart NGINX:
+
+### Enable the site and restart NGINX
 
 ```bash
 sudo service nginx restart
 
 ```
 
-1. Open the following address in your browser to see the new page:
+### Open the following address in your browser to see the new page
 
 ```text
 http://<your_ip>:<your_nginx_port>
@@ -186,26 +189,38 @@ http://<your_ip>:<your_nginx_port>
 ## Configure and clone the Git repository
 
 [!IMPORTANT]
-Ensure that you are connected to the server.
 
-1. Generate an SSH key on the server.
+- Ensure that you are connected to the server.
+
+### Generate an SSH key on the server
 
 ```bash
 ssh-keygen -t ed25519 -C "<your_email_adress>"
 
 ```
 
-1. Copy the contents of the public key and add it to your GitHub account.
+### Add the key to GitHub
 
-2. Configure Git on the server to use the same username and email as your GitHub account.
+1. Open: <https://github.com/settings/keys>
+2. Click **New SSH key** (or **Add SSH key**)  
+3. Give it a descriptive **Title** (e.g., "Virtual Server")  
+4. Paste the public key into the **Key** field and click **Add SSH key**
+
+### Configure Git on the server to use
+
+[!IMPORTANT]
+
+- Give the same username and email as your GitHub account
 
 ```bash
+#set username
 git config --global user.name "<your_github_account_username>"
+#set email
 git config --global user.email "<your_github_account_email>"
 
 ```
 
-1. Clone the git repository
+### Clone the git repository
 
 ```bash
 git clone https://github.com/<your_github_account_name>/<your_github_repository_name>.
@@ -221,10 +236,14 @@ git -T git@github.com
 
 ```
 
-1. You should see a message asking to verify the host fingerprint. Verify it matches GitHub's public key and type yes to continue.
+[!IMPORTANT]
+
+- You should see a message asking to verify the host fingerprint.
+- Verify if the fingerprint matches GitHub's public key and type yes to continue.
 
 [!NOTE]
-You may see this message on successful authentication:
+
+- You may see this message on successful authentication:
 
 ```text
 Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
