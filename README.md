@@ -181,7 +181,7 @@ http://<your_ip>:<your_nginx_port>
 
 ## Configure and clone the Git repository
 
-> 🔔 IMPORTANT
+> [!IMPORTANT]
 >
 > Ensure that you are connected to the server.
 
@@ -200,7 +200,7 @@ ssh-keygen -t ed25519 -C <your_email_adress>
 
 ### Configure Git on the server to use
 
-> 🔔 IMPORTANT
+> [!IMPORTANT]
 >
 > Give the same username and email as your GitHub account
 
@@ -225,7 +225,7 @@ git clone https://github.com/<your_github_account_name>/<your_github_repository_
 git -T git@github.com
 ```
 
-> 🔔 IMPORTANT
+> [!IMPORTANT]
 >
 > You should see a message asking to verify the host fingerprint.
 > Verify if the fingerprint matches GitHub's public key and type yes to continue.
