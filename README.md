@@ -47,7 +47,7 @@ ssh <your_root_name>@<your_ip>
 ssh-copy-id -i ~/.ssh/your_key.pub user@host
 ```
 
-> ⚠️ Warning
+> [!WARNING]
 >
 > Ensure the SSH key-based connection is successful before disabling password.
 
