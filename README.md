@@ -198,7 +198,7 @@ ssh-keygen -t ed25519 -C <your_email_adress>
 3. Give it a descriptive **Title** (e.g., "Virtual Server")  
 4. Paste the public key into the **Key** field and click **Add SSH key**
 
-### Configure Git on the server to use
+### Configure Git on the server
 
 > [!IMPORTANT]
 >
