@@ -151,7 +151,7 @@ sudo nano /etc/nginx/sites-enabled/mywebsite
 Example site block(use a server block):
 
 ```nginx
-{
+server {
     listen <your_nginx_port>; # Example 8070
     listen [::]:<your_nginx_port>;
 
@@ -160,8 +160,7 @@ Example site block(use a server block):
 
     location / {
         try_files $uri $uri/ =404;
-        }
-git push
+    }
 }
 ```
 
